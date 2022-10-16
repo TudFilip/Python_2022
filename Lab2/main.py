@@ -43,6 +43,7 @@ print()
 '''
 
 def a_intersect_b(a, b):
+    ''''''
     list = []
     for x in a:
         for y in b:
@@ -53,10 +54,12 @@ def a_intersect_b(a, b):
 
 
 def a_reunited_b(a, b):
+    ''''''
     return list(dict.fromkeys(a + b))
 
 
 def a_minus_b(a, b):
+    ''''''
     list = []
     for i in range(len(a)):
         if b.count(a[i]) == 0:
@@ -81,6 +84,7 @@ print()
 '''
 
 def compose(musical_notes, moves, start_pos):
+    ''''''
     song = []
     current_pos = start_pos
     for move in moves:
@@ -100,6 +104,7 @@ print()
 '''
 
 def change_matrix(matrix):
+    ''''''
     for i in range(0, len(matrix)):
         for j in range(0, len(matrix)):
             if i > j:
@@ -108,6 +113,7 @@ def change_matrix(matrix):
 
 
 def print_matrix(matrix):
+    ''''''
     i = 0
     while i != len(matrix):
         print(matrix[i])
@@ -132,6 +138,7 @@ print()
 '''
 
 def search(x, *lists):
+    ''''''
     final_list = []
     for list in lists:
         final_list += list
@@ -155,6 +162,7 @@ print()
 '''
 
 def is_palindrome(x: int):
+    ''''''
     aux = x
     pal = 0
     while aux != 0:
@@ -167,6 +175,7 @@ def is_palindrome(x: int):
 
 
 def palindromes_of_list(my_list: list):
+    ''''''
     counter = 0
     greatest_palindrome = 0
     for number in my_list:
@@ -189,6 +198,7 @@ print()
 '''
 
 def string_characters(list_of_strings: list, flag: bool, x = 1):
+    ''''''
     final_list = []
     for tmp_string in list_of_strings:
         tmp_list = []
@@ -215,3 +225,45 @@ print()
     seats are occupied. All the seats are at the same level. Row and column indexing starts from 0, beginning with the
     closest row from the field.
 '''
+
+def unlucky_spectators(seats: list):
+    spectators = []
+    for seat_column in range(0, len(seats[0])):
+        max_height = seats[0][seat_column]
+        for seat_line in range(1, len(seats)):
+            if seats[seat_line][seat_column] > max_height:
+                max_height = seats[seat_line][seat_column]
+            else:
+                spectators.append([seat_line, seat_column])
+    return spectators
+
+
+stadium_seats = [[1, 2, 3, 2, 1, 1],
+                [2, 4, 4, 3, 7, 2],
+                [5, 5, 2, 5, 6, 4],
+                [6, 6, 7, 6, 7, 5]]
+
+
+print("EX9: ", unlucky_spectators(stadium_seats))
+print()
+
+
+'''
+    EX10: Write a function that receives a variable number of lists and returns a list of tuples as follows: the first 
+    tuple contains the first items in the lists, the second element contains the items on the position 2 in the lists, 
+    etc. Ex: for lists [1,2,3], [5,6,7], ["a", "b", "c"] return: [(1, 5, "a ") ,(2, 6, "b"), (3,7, "c")]. 
+'''
+
+def tuples_from_lists(*input_lists: list):
+    max_length = max(len(x) for x in input_lists)
+    my_tuples = [range(len(input_lists)) for x in range(max_length)]
+    for i in range(0, len(input_lists) - 1):
+        if len(input_lists[i]) < max_length:
+            while len(input_lists[i]) != max_length:
+                list.append(None)
+
+        for j in range(0, len(my_tuples) - 1):
+            my_tuples[j][i] = input_lists[i][j]
+
+
+print("EX10: ", tuples_from_lists([1, 2, 3], [5, 6, 7], ["a", "b", "c"]))
