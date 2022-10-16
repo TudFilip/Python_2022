@@ -227,6 +227,7 @@ print()
 '''
 
 def unlucky_spectators(seats: list):
+    ''''''
     spectators = []
     for seat_column in range(0, len(seats[0])):
         max_height = seats[0][seat_column]
@@ -255,15 +256,63 @@ print()
 '''
 
 def tuples_from_lists(*input_lists: list):
+    ''''''
     max_length = max(len(x) for x in input_lists)
-    my_tuples = [range(len(input_lists)) for x in range(max_length)]
-    for i in range(0, len(input_lists) - 1):
+    my_tuples = []
+    for i in range(max_length):
+        my_tuples.append([])
+    for i in range(0, len(input_lists)):
         if len(input_lists[i]) < max_length:
             while len(input_lists[i]) != max_length:
-                list.append(None)
-
-        for j in range(0, len(my_tuples) - 1):
-            my_tuples[j][i] = input_lists[i][j]
+                input_lists[i].append(None)
+        for j in range(0, len(input_lists[i])):
+            my_tuples[j].append(input_lists[i][j])
+    return my_tuples
 
 
 print("EX10: ", tuples_from_lists([1, 2, 3], [5, 6, 7], ["a", "b", "c"]))
+print()
+
+
+'''
+    EX11: Write a function that will order a list of string tuples based on the 3rd character of the 2nd element in the 
+    tuple. Example: ('abc', 'bcd'), ('abc', 'zza')] ==> [('abc', 'zza'), ('abc', 'bcd')]
+'''
+
+def order_tuples(input_tuples: list):
+    ''''''
+    return sorted(input_tuples, key=lambda x: x[1][2])
+
+
+print("EX11: ", order_tuples([('abc', 'bcd'), ('abc', 'zza'), ('abc', 'ghi')]))
+print()
+
+
+'''
+    EX12: Write a function that will receive a list of words as parameter and will return a list of lists of words, 
+    grouped by rhyme. Two words rhyme if both of them end with the same 2 letters.
+'''
+
+def group_by_rhyme(input_list: list):
+    rhymes = []
+    existing_rhymes = []
+    for i in range(len(input_list)):
+        rhymes.append([])
+
+    for word in input_list:
+        last_2_letters = word[-2:]
+        if last_2_letters not in existing_rhymes:
+            existing_rhymes.append(last_2_letters)
+            rhymes[existing_rhymes.index(last_2_letters)].append(word)
+        else:
+            rhymes[existing_rhymes.index(last_2_letters)].append(word)
+
+    return rhymes
+
+
+print("EX12: ", group_by_rhyme(['ana', 'banana', 'carte', 'arme', 'parte']))
+
+
+
+
+
