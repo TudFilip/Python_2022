@@ -48,11 +48,8 @@ def ex3(dict_a: dict, dict_b: dict):
         if type(dict_a[key]) == dict:
             if not ex3(dict_a[key], dict_b[key]):
                 return False
-        elif type(dict_a[key]) == list:
-            if not ex3(dict_a[key], dict_b[key]):
-                return False
-        elif type(dict_a[key]) == set:
-            if not ex3(dict_a[key], dict_b[key]):
+        elif type(dict_a[key]) == tuple or type(dict_a[key]) == set:
+            if not ex3(dict.fromkeys(dict_a[key]), dict.fromkeys(dict_b[key])):
                 return False
         else:
             if dict_a[key] != dict_b[key]:
@@ -60,6 +57,33 @@ def ex3(dict_a: dict, dict_b: dict):
     return True
 
 
+print("EX4: ", ex3({'asda': {3, 4, 12}, 'ana': 2, 'ioana': (3, 1)}, {'asda': {56, 12, 111}, 'ana': 3, 'ioana': (3, 1)}))
 
 
+"""
+    EX4: The build_xml_element function receives the following parameters: tag, content, and key-value elements given 
+    as name-parameters. Build and return a string that represents the corresponding XML element. Example: build_xml_element 
+    ("a", "Hello there", href =" http://python.org ", _class =" my-link ", id= " someid ") returns  the string = 
+    "<a href=\"http://python.org \ "_class = \" my-link \ "id = \" someid \ "> Hello there </a>"
+"""
+
+def ex4(tag: str, content: str, **parameters):
+    my_xml = '<'
+    my_xml += tag + ' '
+    for key in parameters:
+        my_xml += key + ' =' + parameters[key] + ' '
+    my_xml += '>' + content + '</' + tag + '>'
+    return my_xml
+
+
+print("EX4: ", ex4("a", "Hello there", href=" http://python.org ", _class=" my-link ", id=" someid "))
+
+
+"""
+    EX5: The validate_dict function that receives as a parameter a set of tuples ( that represents validation rules for 
+    a dictionary that has strings as keys and values) and a dictionary. A rule is defined as follows: (key, "prefix", 
+    "middle", "suffix"). A value is considered valid if it starts with "prefix", "middle" is inside the value (not at 
+    the beginning or end) and ends with "suffix". The function will return True if the given dictionary matches all the 
+    rules, False otherwise.
+"""
 

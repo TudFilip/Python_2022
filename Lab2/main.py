@@ -270,7 +270,7 @@ def tuples_from_lists(*input_lists: list):
     return my_tuples
 
 
-print("EX10: ", tuples_from_lists([1, 2, 3], [5, 6, 7], ["a", "b", "c"]))
+print("EX10: ", tuples_from_lists([1, 2, 3, 56, 23], [5, 6, 7], ["a", "b", "c"]))
 print()
 
 
