@@ -87,3 +87,107 @@ print("EX4: ", ex4("a", "Hello there", href=" http://python.org ", _class=" my-l
     rules, False otherwise.
 """
 
+def validate_dict(rules: set, dictionary: dict):
+    key_rules = []
+    for rule in rules:
+        key_rules.append(rule[0])
+
+    for key in dictionary:
+        if key not in key_rules:
+            print(key)
+            return False
+
+    for key in dictionary:
+        key_rule = [x for x in rules if x[0] == key]
+        if not dictionary[key].startswith(key_rule[0][1]):
+            return False
+        if not dictionary[key].endswith(key_rule[0][3]):
+            return False
+        if dictionary[key].find(key_rule[0][2]) == -1 or \
+           dictionary[key].find(key_rule[0][2]) == 0 or \
+           dictionary[key].find(key_rule[0][2]) >= len(dictionary[key]) - len(key_rule[0][2]):
+            return False
+
+    return True
+
+
+print("EX5: ", validate_dict({("key1", "", "inside", ""), ("key2", "", "valid", "")},
+                             {"key1": "come inside, it's too cold out", "key2": "this is not valid"}))
+
+
+"""
+    EX6: Write a function that receives as a parameter a list and returns a tuple (a, b), representing the number of 
+    unique elements in the list, and b representing the number of duplicate elements in the list (use sets to achieve 
+    this objective).
+"""
+
+def ex6(input_list: list):
+    return len(input_list) - 2 * (len(input_list) - len(set(input_list))), len(input_list) - len(set(input_list))
+
+
+print("EX6: ", ex6(['ioana', 'maria', 'cristina', 'maria', 'cristina']))
+
+
+"""
+    EX7: Write a function that receives a variable number of sets and returns a dictionary with the following operations 
+    from all sets two by two: reunion, intersection, a-b, b-a. The key will have the following form: "a op b", where a 
+    and b are two sets, and op is the applied operator: |, &, -. 
+"""
+
+def ex7(*input_sets: set):
+    output_dict = dict([])
+    for i in range(0, len(input_sets)):
+        j = i + 1
+        while j < len(input_sets):
+            output_dict[str(input_sets[i]) + " | " + str(input_sets[j])] = input_sets[i] | input_sets[j]
+            output_dict[str(input_sets[i]) + " & " + str(input_sets[j])] = input_sets[i] & input_sets[j]
+            output_dict[str(input_sets[i]) + " - " + str(input_sets[j])] = input_sets[i] - input_sets[j]
+            output_dict[str(input_sets[j]) + " - " + str(input_sets[i])] = input_sets[j] - input_sets[i]
+            j += 1
+    return output_dict
+
+
+print("EX7: ", ex7({1, 2}, {2, 3}))
+
+
+"""
+    EX8: Write a function that receives a single dict parameter named mapping. This dictionary always contains a string 
+    key "start". Starting with the value of this key you must obtain a list of objects by iterating over mapping in the 
+    following way: the value of the current key is the key for the next value, until you find a loop (a key that was 
+    visited before). The function must return the list of objects obtained as previously described.
+"""
+
+def ex8(mapping: dict):
+    my_loop = []
+    if 'start' not in mapping.keys():
+        return "'start' key not found!"
+
+    next_key = mapping.get('start')
+    my_loop.append(next_key)
+    while True:
+        if mapping.get(next_key) is None:
+            return 'No loop found!'
+        if mapping.get(next_key) in my_loop:
+            return my_loop
+        next_key = mapping.get(next_key)
+        my_loop.append(next_key)
+
+
+print("EX8: ", ex8({'start': 'a', 'b': 'a', 'a': '6', '6': 'z', 'x': '2', 'z': '2', '2': '2', 'y': 'start'}))
+
+
+"""
+    EX9: Write a function that receives a variable number of positional arguments and a variable number of keyword 
+    arguments adn will return the number of positional arguments whose values can be found among keyword arguments 
+    values.
+"""
+
+def ex9(*pos_arg, **keyword_arg):
+    counter = 0
+    for value in pos_arg:
+        if value in keyword_arg.values():
+            counter += 1
+    return counter
+
+
+print("EX9: ", ex9(1, 2, 3, 4, x=1, y=2, z=3, w=5))
