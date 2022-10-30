@@ -92,7 +92,56 @@ def exercitiul_3(my_path: str):
 
             return sorted(extensions_counter, reverse=True, key=lambda x: x[1])
 
-print(exercitiul_3('d:\Desktop\Facultate\SEMESTRUL_1\Python'))
+# print(exercitiul_3('d:\Desktop\Facultate\SEMESTRUL_1\Python'))
+"""
+EX4: Să se scrie o funcție ce returnează o listă cu extensiile unice a fișierelor din directorul dat ca argument la 
+linia de comandă (nerecursiv). Lista trebuie să fie sortată crescător.
 """
 
+def exercitiul_4():
+    extensions = set()
+    for file in os.listdir(sys.argv[1]):
+        if os.path.isfile(os.path.join(sys.argv[1] + '\\', file)):
+            extensions.add(file.split('.')[-1])
+    return sorted(extensions)
+
+
 """
+EX5: Să se scrie o funcție care primește ca argumente două șiruri de caractere, target și to_search și returneaza o 
+listă de fișiere care conțin to_search. Fișierele se vor căuta astfel: dacă target este un fișier, se caută doar in 
+fișierul respectiv iar dacă este un director se va căuta recursiv in toate fișierele din acel director. Dacă target nu 
+este nici fișier, nici director, se va arunca o excepție de tipul ValueError cu un mesaj corespunzator.
+"""
+
+def exercitiul_5(target: str, to_search: str):
+    """"""
+    try:
+        if not os.path.isfile(target) and not os.path.isdir(target):
+            raise ValueError()
+    except ValueError:
+        return "ex5: 'target' is not a file or a directory: " + target
+    else:
+        if os.path.isfile(target):
+            if to_search in os.path.splitext(os.path.basename(target))[0]:
+                return "ex5: 'target' exists in 'to_search' file"
+            else:
+                return "ex5: 'target' does not exists in 'to_search' file"
+        else:
+            find_files = []
+            for (root, directories, files) in os.walk(target):
+                for file in files:
+                    if to_search in file.split('.')[0]:
+                        find_files.append(file.split('.')[0])
+            return find_files
+
+
+"""
+EX6: Să se scrie o funcție care are același comportament ca funcția de la exercițiul anterior, cu diferența că primește 
+un parametru în plus: o funcție callback, care primește un parametru, iar pentru fiecare eroare apărută în procesarea 
+fișierelor, se va apela funcția respectivă cu instanța excepției ca parametru.
+"""
+
+if __name__ == '__main__':
+    print(exercitiul_4())
+    print(exercitiul_5('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab'))
+
