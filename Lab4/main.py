@@ -47,8 +47,8 @@ def exercitiul_2(input_director: str, input_file: str):
         for (root, directories, files) in os.walk(input_director):
             for file_name in files:
                 if file_name.split('.')[0].startswith('A'):
-                    file.write(os.path.abspath(file_name))
-
+                    file.write(input_director + '\\' + file_name + '\n')
+        file.close()
 
 """
 EX3: Să se scrie o funcție ce primește ca parametru un string my_path.
@@ -56,4 +56,43 @@ Dacă parametrul reprezintă calea către un fișier, se vor returna ultimele 20
 Dacă parametrul reprezintă calea către un director, se va returna o listă de tuple (extensie, count), sortată 
 descrescător după count, unde extensie reprezintă extensie de fișier, iar count - numărul de fișiere cu acea extensie. 
 Lista se obține din toate fișierele (recursiv) din directorul dat ca parametru.
+"""
+
+def exercitiul_3(my_path: str):
+    """"""
+    try:
+        if not os.path.dirname(my_path):
+            raise ValueError()
+    except ValueError:
+        return "Given parameter is neither a directory or a file"
+    else:
+        if os.path.isfile(my_path):
+            try:
+                f = open(my_path, 'rt')
+                last_20_char = f.read()
+                return last_20_char[-20:]
+            except OSError:
+                return "Unable to open the file: " + my_path
+        else:
+            extensions_counter = []
+            for (root, directories, files) in os.walk(my_path):
+                for file_name in files:
+                    if len(extensions_counter) == 0:
+                        aux = tuple((file_name.split('.')[-1], 1))
+                        extensions_counter += tuple([aux])
+                    elif file_name.split('.')[-1] in [ext[0] for ext in extensions_counter]:
+                        for extension in extensions_counter:
+                            if extension[0] == file_name.split('.')[-1]:
+                                aux = tuple((file_name.split('.')[-1], extension[1] + 1))
+                                del extensions_counter[extensions_counter.index((file_name.split('.')[-1], extension[1]))]
+                                extensions_counter += tuple([aux])
+                    else:
+                        aux = tuple((file_name.split('.')[-1], 1))
+                        extensions_counter += tuple([aux])
+
+            return sorted(extensions_counter, reverse=True, key=lambda x: x[1])
+
+print(exercitiul_3('d:\Desktop\Facultate\SEMESTRUL_1\Python'))
+"""
+
 """
