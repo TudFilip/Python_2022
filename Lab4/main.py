@@ -207,7 +207,10 @@ def exercitiul_8(dir_path: str):
         return "ex8: given parameter is not a directory"
     else:
         files_list = []
-
+        for (root, directories, files) in os.walk(dir_path):
+            for file in files:
+                files_list.append(os.path.abspath(file))
+        return files_list
 
 
 if __name__ == '__main__':
@@ -215,5 +218,5 @@ if __name__ == '__main__':
     print(exercitiul_5('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab'))
     print(exercitiul_6('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab', callback))
     print(exercitiul_7('d:\Desktop\Facultate\SEMESTRUL_1\Python\\lab2-py.txt'))
-
+    print(exercitiul_8('d:\Desktop\Facultate\SEMESTRUL_1\Python'))
 
