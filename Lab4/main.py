@@ -142,7 +142,7 @@ fișierelor, se va apela funcția respectivă cu instanța excepției ca paramet
 """
 
 def callback(e: ValueError):
-    return "ex5: 'target' is not a file or a directory: " + str(e)
+    return "ex6: 'target' is not a file or a directory: " + str(e)
 
 
 def exercitiul_6(target: str, to_search: str, cb):
@@ -154,9 +154,9 @@ def exercitiul_6(target: str, to_search: str, cb):
     else:
         if os.path.isfile(target):
             if to_search in os.path.splitext(os.path.basename(target))[0]:
-                return "ex5: 'target' exists in 'to_search' file"
+                return "ex6: 'target' exists in 'to_search' file"
             else:
-                return "ex5: 'target' does not exists in 'to_search' file"
+                return "ex6: 'target' does not exists in 'to_search' file"
         else:
             find_files = []
             for (root, directories, files) in os.walk(target):
@@ -166,9 +166,54 @@ def exercitiul_6(target: str, to_search: str, cb):
             return find_files
 
 
+"""
+EX7: Să se scrie o funcție care primește ca parametru un șir de caractere care reprezintă calea către un fișer si 
+returnează un dicționar cu următoarele cămpuri: full_path = calea absoluta catre fisier, file_size = dimensiunea 
+fisierului in octeti, file_extension = extensia fisierului (daca are) sau "", can_read, can_write = True/False daca se 
+poate citi din/scrie in fisier.
+"""
+
+def exercitiul_7(my_file: str):
+    try:
+        if not os.path.isfile(my_file):
+            raise ValueError
+    except ValueError:
+        return "ex7: given parameter is not a file"
+    else:
+        file_stats = dict()
+        absolut_path = os.path.abspath(my_file)
+        file_stats.update({'full_path': absolut_path})
+        size = os.path.getsize(my_file)
+        file_stats.update({'file_size': size})
+        extension = os.path.basename(my_file).split('.')[-1] if len(os.path.basename(my_file).split('.')) == 2 else ""
+        file_stats.update({'file_extension': extension})
+        file_stats.update({'can_read': os.access(my_file, os.R_OK)})
+        file_stats.update({'can_write': os.access(my_file, os.W_OK)})
+        return file_stats
+
+
+"""
+Ex8: Să se scrie o funcție ce primește un parametru cu numele dir_path. Acest parametru reprezintă calea către un 
+director aflat pe disc. Funcția va returna o listă cu toate căile absolute ale fișierelor aflate în rădăcina 
+directorului dir_path.
+Exemplu apel funcție: functie("C:\\director") va returna ["C:\\director\\fisier1.txt", "C:\\director\\fisier2.txt"]
+"""
+
+def exercitiul_8(dir_path: str):
+    try:
+        if not os.path.isdir(dir_path):
+            raise NotADirectoryError
+    except NotADirectoryError:
+        return "ex8: given parameter is not a directory"
+    else:
+        files_list = []
+
+
+
 if __name__ == '__main__':
     # print(exercitiul_4())
     print(exercitiul_5('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab'))
     print(exercitiul_6('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab', callback))
+    print(exercitiul_7('d:\Desktop\Facultate\SEMESTRUL_1\Python\\lab2-py.txt'))
 
 
