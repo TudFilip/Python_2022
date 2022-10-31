@@ -141,7 +141,34 @@ un parametru în plus: o funcție callback, care primește un parametru, iar pen
 fișierelor, se va apela funcția respectivă cu instanța excepției ca parametru.
 """
 
+def callback(e: ValueError):
+    return "ex5: 'target' is not a file or a directory: " + str(e)
+
+
+def exercitiul_6(target: str, to_search: str, cb):
+    try:
+        if not os.path.isfile(target) and not os.path.isdir(target):
+            raise ValueError()
+    except ValueError as e:
+        return cb(e)
+    else:
+        if os.path.isfile(target):
+            if to_search in os.path.splitext(os.path.basename(target))[0]:
+                return "ex5: 'target' exists in 'to_search' file"
+            else:
+                return "ex5: 'target' does not exists in 'to_search' file"
+        else:
+            find_files = []
+            for (root, directories, files) in os.walk(target):
+                for file in files:
+                    if to_search in file.split('.')[0]:
+                        find_files.append(file.split('.')[0])
+            return find_files
+
+
 if __name__ == '__main__':
-    print(exercitiul_4())
+    # print(exercitiul_4())
     print(exercitiul_5('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab'))
+    print(exercitiul_6('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab', callback))
+
 
