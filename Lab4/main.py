@@ -14,7 +14,7 @@ def exercitiul_1(my_path: str):
         if not os.path.dirname(my_path):
             raise NotADirectoryError()
     except NotADirectoryError:
-        print("Given path is not a directory: " + my_path)
+        print("ex1: Given path is not a directory: " + my_path)
     else:
         for (root, directories, files) in os.walk(my_path):
             for file_name in files:
@@ -38,17 +38,18 @@ def exercitiul_2(input_director: str, input_file: str):
             raise FileNotFoundError()
         file = open(input_file, 'wt')
     except NotADirectoryError:
-        print("Given path is not a directory: " + input_director)
+        print("ex2: Given path is not a directory: " + input_director)
     except FileNotFoundError:
-        print("Given path is not a file: " + input_file)
+        print("ex2: Given path is not a file: " + input_file)
     except OSError:
-        print("Unable to open the file: " + input_file)
+        print("ex2: Unable to open the file: " + input_file)
     else:
         for (root, directories, files) in os.walk(input_director):
             for file_name in files:
                 if file_name.split('.')[0].startswith('A'):
                     file.write(input_director + '\\' + file_name + '\n')
         file.close()
+
 
 """
 EX3: Să se scrie o funcție ce primește ca parametru un string my_path.
@@ -92,7 +93,7 @@ def exercitiul_3(my_path: str):
 
             return sorted(extensions_counter, reverse=True, key=lambda x: x[1])
 
-# print(exercitiul_3('d:\Desktop\Facultate\SEMESTRUL_1\Python'))
+
 """
 EX4: Să se scrie o funcție ce returnează o listă cu extensiile unice a fișierelor din directorul dat ca argument la 
 linia de comandă (nerecursiv). Lista trebuie să fie sortată crescător.
@@ -146,6 +147,7 @@ def callback(e: ValueError):
 
 
 def exercitiul_6(target: str, to_search: str, cb):
+    """"""
     try:
         if not os.path.isfile(target) and not os.path.isdir(target):
             raise ValueError()
@@ -174,6 +176,7 @@ poate citi din/scrie in fisier.
 """
 
 def exercitiul_7(my_file: str):
+    """"""
     try:
         if not os.path.isfile(my_file):
             raise ValueError
@@ -200,6 +203,7 @@ Exemplu apel funcție: functie("C:\\director") va returna ["C:\\director\\fisier
 """
 
 def exercitiul_8(dir_path: str):
+    """"""
     try:
         if not os.path.isdir(dir_path):
             raise NotADirectoryError
@@ -214,6 +218,10 @@ def exercitiul_8(dir_path: str):
 
 
 if __name__ == '__main__':
+    print(exercitiul_1('d:\Desktop\Facultate\SEMESTRUL_1\Python'))
+    print(exercitiul_2('d:\Desktop\Facultate\SEMESTRUL_1\Python',
+                       'd:\Desktop\Facultate\SEMESTRUL_1\Python\\test_lab4.txt'))
+    print(exercitiul_3('d:\Desktop\Facultate\SEMESTRUL_1\Python'))
     # print(exercitiul_4())
     print(exercitiul_5('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab'))
     print(exercitiul_6('d:\Desktop\Facultate\SEMESTRUL_1\Python', 'lab', callback))
