@@ -1,4 +1,7 @@
 def process_item(x: int):
+    if x < 2:
+        return 2
+
     is_prime = [1]*(x*2)
     is_prime[0] = 0
     is_prime[1] = 0
@@ -21,3 +24,5 @@ def process_item(x: int):
 if __name__ == '__main__':
     user_input = int(input("Enter a natural number: "))
     print("The least prime number greater than x is: " + str(process_item(user_input)))
+else:
+    print("utils module loaded")
