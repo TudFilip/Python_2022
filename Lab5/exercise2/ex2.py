@@ -10,5 +10,6 @@ def sum_of_kwargs(*args, **kwargs):
 
 anon_sum_of_kwargs = lambda *args, **kwargs: sum(kwargs.values())
 
-print(sum_of_kwargs(1, 2, c=3, d=4, e=5))
-print(anon_sum_of_kwargs(1, 2, c=3, d=4, e=5))
+if __name__ == '__main__':
+    print(sum_of_kwargs(1, 2, c=3, d=4, e=5))
+    print(anon_sum_of_kwargs(1, 2, c=3, d=4, e=5))
