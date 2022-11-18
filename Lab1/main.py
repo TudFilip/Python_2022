@@ -196,16 +196,17 @@
 '''
     EX10: Write a function that counts how many words exists in a text. A text is considered to be form out of words 
     that are separated by only ONE space. For example: "I have Python exam" has 4 words.
-'''
-def get_number_of_words(text) :
-    return len(text.split(" "))
+# '''
+# def get_number_of_words(text) :
+#     return len(text.split(" "))
+#
+#
+# string = input('Introduceti textul: ')
+#
+# print('Numarul de cuvinte din text este de: ' + str(get_number_of_words(string)))
 
-
-string = input('Introduceti textul: ')
-
-print('Numarul de cuvinte din text este de: ' + str(get_number_of_words(string)))
-
-
+import sys
+print(sys.executable)
 
 
 
