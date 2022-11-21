@@ -3,6 +3,7 @@ EX1: Write a function that extracts the words from a given text as a parameter. 
 alphanumeric characters.
 """
 import re
+import xml.etree.ElementTree as ET
 
 
 def extract_words(text):
@@ -30,22 +31,24 @@ returns a list of strings that match on at least one regular expression given as
 
 
 def extract_words_regex_list(regex_list, text):
-    return re.findall('|'.join(regex_list), text)
+    matches = []
+    for regex in regex_list:
+        matches += re.findall(regex, text)
+    return matches
 
 
 """
 EX4: Write a function that receives as a parameter the path to an xml document and an attrs dictionary and returns those 
-elements that have as attributes all the keys in the dictionary and values ​​the corresponding values. For 
+elements that have as attributes all the keys in the dictionary and values the corresponding values. For 
 example, if attrs={"class": "url", "name": "url-form", "data-id": "item"} the items selected will be those tags whose 
 attributes are class="url" si name="url-form" si data-id="item".
 """
 
 
 def extract_elements_by_attrs(xml_path, attrs):
-    import xml.etree.ElementTree as ET
     tree = ET.parse(xml_path)
     root = tree.getroot()
-    return root.findall('.//*[@' + ' and @'.join([key + '="' + value + '"' for key, value in attrs.items()]) + ']')
+    return [elem.tag for elem in root.iter() if all([elem.attrib.get(key) == value for key, value in attrs.items()])]
 
 
 """
@@ -55,10 +58,9 @@ attribute that corresponds to a key-value pair in the dictionary.
 
 
 def extract_elements_by_attrs2(xml_path, attrs):
-    import xml.etree.ElementTree as ET
     tree = ET.parse(xml_path)
     root = tree.getroot()
-    return root.findall('.//*[@' + ' or @'.join([key + '="' + value + '"' for key, value in attrs.items()]) + ']')
+    return [elem.tag for elem in root.iter() if any([elem.attrib.get(key) == value for key, value in attrs.items()])]
 
 
 """
@@ -100,9 +102,9 @@ def find_files(path, regex):
 if __name__ == '__main__':
     print("EX1:", extract_words('Hello, world!'))
     print("EX2:", extract_words_regex('[a-zA-Z0-9]', 'Hello, world!', 4))
-    print("EX3:", extract_words_regex_list([r'\w+', r'\d+'], 'Hello, world! 123'))
-    # print(extract_elements_by_attrs('test.xml', {'class': 'url', 'name': 'url-form', 'data-id': 'item'}))
-    # print(extract_elements_by_attrs2('test.xml', {'class': 'url', 'name': 'url-form', 'data-id': 'item'}))
+    print("EX3:", extract_words_regex_list(['\w+', '\d+'], 'Hello, world! 123'))
+    print("EX4:", extract_elements_by_attrs('test.xml', {'seven': 'engine'}))
+    print("EX5:", extract_elements_by_attrs2('test.xml', {'seven': 'engine', 'sky': 'happily'}))
     # print(censor_words('Hello, world!'))
     # print(is_valid_cnp('1234567890123'))
     # find_files('C:\\Users\\User\\Desktop\\', r'\w+')
