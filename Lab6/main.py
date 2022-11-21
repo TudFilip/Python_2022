@@ -2,6 +2,7 @@
 EX1: Write a function that extracts the words from a given text as a parameter. A word is defined as a sequence of
 alphanumeric characters.
 """
+import itertools
 import re
 import xml.etree.ElementTree as ET
 
@@ -70,7 +71,18 @@ means replacing characters from odd positions with *.
 
 
 def censor_words(text):
-    return re.sub(r'\b([aeiou])(.*?)([aeiou])\b', r'\1' + r'\2'.replace(r'\2', r'*' * (len(r'\2') - 1)) + r'\3', text)
+    all_matches = re.findall('[aeiouAEIOU]\w*[aeiouAEIOU]', text)
+    censured_matches = []
+    for match in all_matches:
+        tmp = ''
+        for i in range(1, len(match)+1):
+            if i % 2 == 0:
+                tmp += match[i-1]
+            else:
+                tmp += '*'
+        censured_matches.append(tmp)
+
+    return re.sub('[aeiouAEIOU]\w*[aeiouAEIOU]', lambda x: censured_matches.pop(0), text)
 
 
 """
@@ -105,6 +117,6 @@ if __name__ == '__main__':
     print("EX3:", extract_words_regex_list(['\w+', '\d+'], 'Hello, world! 123'))
     print("EX4:", extract_elements_by_attrs('test.xml', {'seven': 'engine'}))
     print("EX5:", extract_elements_by_attrs2('test.xml', {'seven': 'engine', 'sky': 'happily'}))
-    # print(censor_words('Hello, world!'))
-    # print(is_valid_cnp('1234567890123'))
+    print("EX6:", censor_words('Ana si cu Ioana merg acasa'))
+    print(is_valid_cnp('1234567890123'))
     # find_files('C:\\Users\\User\\Desktop\\', r'\w+')
