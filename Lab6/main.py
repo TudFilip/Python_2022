@@ -2,9 +2,9 @@
 EX1: Write a function that extracts the words from a given text as a parameter. A word is defined as a sequence of
 alphanumeric characters.
 """
-import itertools
 import re
 import xml.etree.ElementTree as ET
+import os
 
 
 def extract_words(text):
@@ -91,7 +91,9 @@ EX7: Verify using a regular expression whether a string is a valid CNP.
 
 
 def is_valid_cnp(cnp):
-    return re.match(r'^[1-8]\d{2}((0[1-9])|(1[0-2]))((0[1-9])|([1-2]\d)|(3[0-1]))\d{4}$', cnp)
+    if re.match('^[1-9]\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])(0[1-9]|[1-4]\d|5[0-2]|99)(00[1-9]|0[1-9]\d|[1-9]\d\d)\d$', cnp):
+        return True
+    return False
 
 
 """
@@ -102,13 +104,27 @@ prefixed with ">>"
 
 
 def find_files(path, regex):
-    import os
-    for root, dirs, files in os.walk(path):
+    for (root, directories, files) in os.walk(path):
         for file in files:
+            ok = 0
             if re.match(regex, file):
-                print('>>' + os.path.join(root, file))
-            elif re.search(regex, file):
-                print(os.path.join(root, file))
+                ok += 1
+
+            try:
+                f = open(os.path.join(root, file), 'r', encoding='utf-8', errors='ignore')
+                for line in f:
+                    tmp_line = line.strip()
+                    if re.match(regex, tmp_line):
+                        ok += 1
+                        break
+                f.close()
+            except IOError:
+                print("Unable to open file: " + file)
+
+            if ok == 1:
+                print(file)
+            elif ok == 2:
+                print(">>" + file)
 
 
 if __name__ == '__main__':
@@ -118,5 +134,5 @@ if __name__ == '__main__':
     print("EX4:", extract_elements_by_attrs('test.xml', {'seven': 'engine'}))
     print("EX5:", extract_elements_by_attrs2('test.xml', {'seven': 'engine', 'sky': 'happily'}))
     print("EX6:", censor_words('Ana si cu Ioana merg acasa'))
-    print(is_valid_cnp('1234567890123'))
-    # find_files('C:\\Users\\User\\Desktop\\', r'\w+')
+    print("EX7:", is_valid_cnp('5010621270820'))
+    find_files('d:\\Desktop\\Facultate\\SEMESTRUL_1\\Python\\Python_2022', '\w+')
